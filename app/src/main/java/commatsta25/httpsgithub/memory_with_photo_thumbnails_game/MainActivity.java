@@ -27,18 +27,27 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+//                for(int i = 0 ; i < 2 ; i++){
+                    dispatchTakePictureIntent();
+//                }
             }
         });
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                play();
                 CharSequence text = "PLAY BUTTON CLICKED.";
                 toastMessage(text);
             }
         });
 
+    }
+
+    private void play() {
+
+        Intent intent = new Intent(this, PlayActivity.class);
+        startActivity(intent);
     }
 
     private void dispatchTakePictureIntent() {
