@@ -17,6 +17,12 @@
         tools:layout_editor_absoluteY="8dp">
 
         <ImageView
+            android:id="@+id/mImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
