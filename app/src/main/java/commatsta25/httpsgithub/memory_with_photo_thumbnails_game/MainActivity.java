@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 final SQLiteDatabase db = mDbHelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
 
-                String title = "titleTEST";
+                String title = "My Title";
                 String subtitle = "subtitleTEST";
                 values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, title);
                 values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE, subtitle);
