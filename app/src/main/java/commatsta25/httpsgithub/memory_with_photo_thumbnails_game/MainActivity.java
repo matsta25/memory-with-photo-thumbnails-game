@@ -37,10 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         final Button takePictureButton = findViewById(R.id.takePictureButton);
         final Button playButton = findViewById(R.id.playButton);
-
+        final Button exitButton = findViewById(R.id.exitButton);
 
         takePictureButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
@@ -58,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
                 toastMessage(text);
             }
         });
+
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                onDestroy();
+                System.exit(0);
+            }
+        });
+
 
 
     }
@@ -99,8 +109,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        deleteLastPhotos();
         mDbHelper.close();
         super.onDestroy();
+    }
+
+    private void deleteLastPhotos() {
+        File dir = new File(Environment.getExternalStorageDirectory()+"/Android/data/commatsta25.httpsgithub.memory_with_photo_thumbnails_game/files/Pictures");
+        if (dir.isDirectory())
+        {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(dir, children[i]).delete();
+            }
+        }
+        CharSequence text = "Last photos deleted.";
+        toastMessage(text);
     }
 
     String mCurrentPhotoPath;

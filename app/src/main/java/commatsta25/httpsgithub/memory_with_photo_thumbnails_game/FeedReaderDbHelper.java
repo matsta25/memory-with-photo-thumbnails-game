@@ -15,8 +15,8 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + FeedReaderContract.FeedEntry.TABLE_NAME;
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "FeedReader3.db";
+    public static int DATABASE_VERSION = 3;
+    public static final String DATABASE_NAME = "FeedReader.db";
 
     public FeedReaderDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,4 +33,10 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
+
+    public void onOpen(SQLiteDatabase db) {
+        db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);
+    }
+
 }

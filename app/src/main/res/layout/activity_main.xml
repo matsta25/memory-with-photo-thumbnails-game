@@ -17,12 +17,6 @@
         tools:layout_editor_absoluteY="8dp">
 
         <ImageView
-            android:id="@+id/mImageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,6 +46,19 @@
             android:shadowDy="10"
             android:text="play"
             android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:id="@+id/exitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorAccent"
+            android:shadowColor="@color/colorPrimaryDark"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:text="exit"
+            android:textColor="@color/colorPrimaryDark" />
+
 
     </LinearLayout>
 
