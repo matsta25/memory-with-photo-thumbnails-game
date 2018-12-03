@@ -83,6 +83,8 @@ public class PlayActivity extends AppCompatActivity {
         myAdapter = new MyAdapter(PlayActivity.this,itemPaths);
         listview.setAdapter(myAdapter);
 
+
+
     }
 
     private void toastMessage(CharSequence text) {
