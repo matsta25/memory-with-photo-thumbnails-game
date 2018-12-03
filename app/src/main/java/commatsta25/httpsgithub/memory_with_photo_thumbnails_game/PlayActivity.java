@@ -4,11 +4,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,6 +24,10 @@ import java.util.List;
 public class PlayActivity extends AppCompatActivity {
 
     FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
+
+    ArrayList itemPaths = new ArrayList<String>();
+
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +53,28 @@ public class PlayActivity extends AppCompatActivity {
                 null               // The sort order
         );
 
-        List itemIds = new ArrayList<>();
+
+        lv = findViewById(R.id.lv);
+
         while(cursor.moveToNext()) {
             String path = cursor.getString(
                     cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_PATH));
-
+            Bitmap bmImg = BitmapFactory.decodeFile(path);
+//            imageViewTest.setImageBitmap(bmImg);
             Log.d("ADebugTag", "PATH: " + path);
-            itemIds.add(path);
+            itemPaths.add(path);
         }
         cursor.close();
+
+        for(int i = 0 ; i < itemPaths.size(); i++) {
+            Log.d("ADebugTag", "item from itemPath: " + itemPaths.get(i));
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter(PlayActivity.this, android.R.layout.simple_list_item_1, itemPaths);
+
+        lv.setAdapter(adapter);
+
+
     }
 
     private void toastMessage(CharSequence text) {
@@ -59,5 +83,7 @@ public class PlayActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+
+
 
 }
