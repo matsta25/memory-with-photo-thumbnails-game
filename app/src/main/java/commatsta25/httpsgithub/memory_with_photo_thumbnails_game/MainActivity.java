@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i = 0 ; i < 2 ; i++){
+                for(int i = 0 ; i < 3 ; i++){
                     dispatchTakePictureIntent();
                 }
             }

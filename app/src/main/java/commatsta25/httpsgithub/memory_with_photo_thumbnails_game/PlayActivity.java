@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import commatsta25.httpsgithub.memory_with_photo_thumbnails_game.adapter.MyAdapter;
@@ -66,6 +68,7 @@ public class PlayActivity extends AppCompatActivity {
 //            imageViewTest.setImageBitmap(bmImg);
             Log.d("ADebugTag", "PATH: " + path);
             itemPaths.add(path);
+            itemPaths.add(path);
         }
         cursor.close();
 
@@ -75,12 +78,12 @@ public class PlayActivity extends AppCompatActivity {
 
         listview = findViewById(R.id.listview);
 
+        Collections.shuffle(itemPaths);
+
         myAdapter = new MyAdapter(PlayActivity.this,itemPaths);
         listview.setAdapter(myAdapter);
 
     }
-
-
 
     private void toastMessage(CharSequence text) {
         Context context = getApplicationContext();
