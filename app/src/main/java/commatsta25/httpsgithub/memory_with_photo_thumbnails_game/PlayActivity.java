@@ -36,17 +36,16 @@ public class PlayActivity extends AppCompatActivity {
 // you will actually use after this query.
         String[] projection = {
                 BaseColumns._ID,
-                FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,
-                FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE
+                FeedReaderContract.FeedEntry.COLUMN_NAME_PATH
         };
 
 // Filter results WHERE "title" = 'My Title'
-        String selection = FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE + " = ?";
+        String selection = FeedReaderContract.FeedEntry.COLUMN_NAME_PATH + " = ?";
         String[] selectionArgs = { "My Title" };
 
 // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE + " DESC";
+                FeedReaderContract.FeedEntry.COLUMN_NAME_PATH + " DESC";
 
         Cursor cursor = db.query(
                 FeedReaderContract.FeedEntry.TABLE_NAME,   // The table to query
@@ -60,11 +59,11 @@ public class PlayActivity extends AppCompatActivity {
 
         List itemIds = new ArrayList<>();
         while(cursor.moveToNext()) {
-            long itemId = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry._ID));
+            String path = cursor.getString(
+                    cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_PATH));
 
-            Log.d("ADebugTag", "Value2: " + Long.toString(itemId));
-            itemIds.add(itemId);
+            Log.d("ADebugTag", "PATH: " + path);
+            itemIds.add(path);
         }
         cursor.close();
     }
