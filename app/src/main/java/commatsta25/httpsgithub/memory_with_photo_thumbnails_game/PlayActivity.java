@@ -10,16 +10,20 @@ import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import commatsta25.httpsgithub.memory_with_photo_thumbnails_game.adapter.MyAdapter;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -27,7 +31,9 @@ public class PlayActivity extends AppCompatActivity {
 
     ArrayList itemPaths = new ArrayList<String>();
 
-    ListView lv;
+    ListView listview;
+    MyAdapter myAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +59,6 @@ public class PlayActivity extends AppCompatActivity {
                 null               // The sort order
         );
 
-
-        lv = findViewById(R.id.lv);
-
         while(cursor.moveToNext()) {
             String path = cursor.getString(
                     cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_PATH));
@@ -70,12 +73,14 @@ public class PlayActivity extends AppCompatActivity {
             Log.d("ADebugTag", "item from itemPath: " + itemPaths.get(i));
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(PlayActivity.this, android.R.layout.simple_list_item_1, itemPaths);
+        listview = findViewById(R.id.listview);
 
-        lv.setAdapter(adapter);
-
+        myAdapter = new MyAdapter(PlayActivity.this,itemPaths);
+        listview.setAdapter(myAdapter);
 
     }
+
+
 
     private void toastMessage(CharSequence text) {
         Context context = getApplicationContext();
