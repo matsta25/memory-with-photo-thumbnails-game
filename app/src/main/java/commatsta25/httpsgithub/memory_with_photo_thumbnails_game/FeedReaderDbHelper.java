@@ -34,9 +34,9 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void onOpen(SQLiteDatabase db) {
+    public static void onStart(SQLiteDatabase db) {
         db.execSQL(SQL_DELETE_ENTRIES);
-        onCreate(db);
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 
 }

@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 for(int i = 0 ; i < 2 ; i++){
                     dispatchTakePictureIntent();
                 }
@@ -63,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                FeedReaderDbHelper.onStart(db);
                 onDestroy();
                 System.exit(0);
             }
