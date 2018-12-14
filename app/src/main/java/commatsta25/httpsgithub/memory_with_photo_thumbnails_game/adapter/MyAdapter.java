@@ -14,16 +14,18 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import commatsta25.httpsgithub.memory_with_photo_thumbnails_game.PlayActivity;
 import commatsta25.httpsgithub.memory_with_photo_thumbnails_game.R;
 
 public class MyAdapter extends BaseAdapter {
 
-    private Context context;
     private ArrayList<String> itemPaths;
+    private PlayActivity playActivity;
 
-    public MyAdapter(Context context, ArrayList<String> itemPaths) {
-        this.context = context;
+
+    public MyAdapter( ArrayList<String> itemPaths, PlayActivity playActivity) {
         this.itemPaths = itemPaths;
+        this.playActivity = playActivity;
     }
 
     @Override
@@ -45,22 +47,23 @@ public class MyAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.items_list, null);
+            convertView = View.inflate(playActivity, R.layout.items_list, null);
         }
 
         ImageView images = convertView.findViewById(R.id.imageView);
         Bitmap bmImg = BitmapFactory.decodeFile(itemPaths.get(position));
         images.setImageBitmap(bmImg);
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener()
+        {
+
             @Override
             public void onClick(View v) {
                 Log.d("ADebugTag", "item from itemPath2: " + itemPaths.get(position));
 
                 String path = itemPaths.get(position);
 
-                Toast.makeText(parent.getContext(), "view clicked: " + path, Toast.LENGTH_SHORT).show();
-
+                playActivity.dupa(path);
 
             }
 

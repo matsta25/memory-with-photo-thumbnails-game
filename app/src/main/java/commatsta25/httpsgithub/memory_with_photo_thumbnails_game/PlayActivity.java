@@ -80,11 +80,15 @@ public class PlayActivity extends AppCompatActivity {
 
         Collections.shuffle(itemPaths);
 
-        myAdapter = new MyAdapter(PlayActivity.this,itemPaths);
+        myAdapter = new MyAdapter(itemPaths,this);
         listview.setAdapter(myAdapter);
 
 
 
+
+    }
+    public void dupa(String param){
+        Toast.makeText(this, "zupa clicked: " +param, Toast.LENGTH_SHORT).show();
     }
 
     private void toastMessage(CharSequence text) {
