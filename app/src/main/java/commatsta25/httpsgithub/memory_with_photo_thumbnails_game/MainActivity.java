@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
+    final int PHOTOS_COUNT = 3;
 
     FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
 
@@ -39,12 +40,28 @@ public class MainActivity extends AppCompatActivity {
         final Button playButton = findViewById(R.id.playButton);
         final Button exitButton = findViewById(R.id.exitButton);
 
+        playButton.setEnabled(false);
+        playButton.setBackgroundResource(R.color.colorDisable);
+
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i = 0 ; i < 3 ; i++){
+
+                FeedReaderDbHelper.onStart(db);
+                deleteLastPhotos();
+                mDbHelper.close();
+
+                for(int i = 0 ; i < PHOTOS_COUNT ; i++){
                     dispatchTakePictureIntent();
                 }
+
+                playButton.setEnabled(true);
+                playButton.setBackgroundResource(R.color.colorAccent);
+
+                takePictureButton.setEnabled(false);
+                takePictureButton.setBackgroundResource(R.color.colorDisable);
             }
         });
 
@@ -61,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-                FeedReaderDbHelper.onStart(db);
+                mDbHelper.close();
                 onDestroy();
                 System.exit(0);
             }
@@ -79,17 +95,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
             File photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                // Error occurred while creating the File
 
             }
-            // Continue only if the File was successfully created
+
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
@@ -131,17 +144,16 @@ public class MainActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
 
     private File createImageFile() throws IOException {
-        // Create an image file name
+
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,
+                ".jpg",
+                storageDir
         );
 
-        // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         uploadPathToDb(mCurrentPhotoPath);
         return image;
@@ -153,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PATH, mCurrentPhotoPath);
         long newRowId = db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
         Log.d("ADebugTag", "Value: " +  newRowId + " PATH: " + mCurrentPhotoPath);
-
     }
 
 }
